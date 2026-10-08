@@ -1,0 +1,541 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text-main: #0f172a;
+  --color-text-muted: #475569;
+  --color-primary: #0284c7;
+  --color-primary-hover: #0369a1;
+  --color-diagram-bg: #0f172a;
+  --color-diagram-text: #e2e8f0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-main);
+  background: var(--color-bg);
+  line-height: 1.65;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sticky Screen Toolbar */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.toolbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolbar-brand-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.toolbar-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-main);
+  transition: all 0.15s ease;
+}
+
+.btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* Document Container */
+.container {
+  max-width: 880px;
+  margin: 32px auto 80px auto;
+  padding: 0 24px;
+}
+
+.document-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 48px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-grounded {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-extension {
+  background: #f5f3ff;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+}
+
+.badge-author {
+  background: linear-gradient(135deg, #eff6ff 0%, #ede9fe 100%);
+  border: 1px solid #c7d2fe;
+  color: #4338ca;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 9999px;
+}
+
+.notice-box {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin: 16px 0 24px 0;
+  background: #faf5ff;
+  border: 1px solid #ddd6fe;
+  color: #581c87;
+}
+
+/* Header */
+header.doc-header {
+  margin-bottom: 40px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 32px;
+}
+
+h1.doc-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+
+.one-line-summary {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  border-left: 3px solid var(--color-primary);
+  padding-left: 14px;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.meta-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.meta-link:hover {
+  text-decoration: underline;
+}
+
+/* Sections */
+section.doc-section {
+  margin: 40px 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+h2.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.section-body p {
+  margin-bottom: 14px;
+  color: #334155;
+}
+
+/* Diagrams */
+.diagram-container {
+  margin: 18px 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+pre.diagram {
+  font-family: var(--font-mono);
+  background: var(--color-diagram-bg);
+  color: var(--color-diagram-text);
+  padding: 18px 22px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.35;
+  overflow-x: auto;
+  white-space: pre;
+  border: 1px solid #1e293b;
+}
+
+/* Cards & Timelines */
+.card-list, .timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.card-meta {
+  font-size: 13px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.timeline-item {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 18px 22px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.timestamp-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.point-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.point-explanation {
+  font-size: 14.5px;
+  color: #334155;
+  margin-bottom: 10px;
+}
+
+.point-why {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.analogy-box {
+  background: #fdf4ff;
+  border: 1px solid #f5d0fe;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  color: #86198f;
+  margin-bottom: 8px;
+}
+
+.bullet-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 14.5px;
+  color: #334155;
+}
+
+.bullet-list li::before {
+  content: "•";
+  position: absolute;
+  left: 6px;
+  color: var(--color-primary);
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.misconceptions-list li::before {
+  content: "!";
+  color: #eab308;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Quiz */
+.quiz-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.quiz-question {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.quiz-q-badge {
+  background: #f1f5f9;
+  color: #475569;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  height: fit-content;
+}
+
+.quiz-answer {
+  background: #f8fafc;
+  border-left: 3px solid #10b981;
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  color: #1e293b;
+  margin-top: 8px;
+}
+
+.quiz-answer.hidden-on-screen {
+  display: none;
+}
+
+/* Steps Walkthrough */
+.step-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 13.5px;
+}
+
+.step-number {
+  background: #0284c7;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.step-content {
+  flex: 1;
+  color: #334155;
+  line-height: 1.5;
+}
+
+code.code-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  word-break: break-word;
+  font-weight: 500;
+}
+
+/* Print Rules */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 12mm 14mm 12mm;
+  }
+  
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 9.5pt !important;
+    line-height: 1.45 !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .document-card {
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  h1.doc-title {
+    font-size: 18pt !important;
+    margin-bottom: 6pt !important;
+  }
+  
+  h2.section-title {
+    font-size: 12pt !important;
+  }
+  
+  section.doc-section {
+    margin-top: 16pt !important;
+    margin-bottom: 16pt !important;
+  }
+  
+  .card, .timeline-item, .quiz-card, .diagram-container {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 10pt !important;
+  }
+  
+  .section-header {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+  
+  pre.diagram {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    font-size: 7.2pt !important;
+    line-height: 1.25 !important;
+    padding: 8pt 10pt !important;
+  }
+  
+  .quiz-answer {
+    display: block !important;
+    background: #f1f5f9 !important;
+  }
+  
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

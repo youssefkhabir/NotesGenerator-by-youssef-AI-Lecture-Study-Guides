@@ -44,6 +44,7 @@ export default defineConfig({
       input: {
         sidepanel: resolve(__dirname, "sidepanel.html"),
         background: resolve(__dirname, "src/background/index.ts"),
+        export: resolve(__dirname, "export.html"),
       },
       output: {
         entryFileNames: (chunkInfo) => {

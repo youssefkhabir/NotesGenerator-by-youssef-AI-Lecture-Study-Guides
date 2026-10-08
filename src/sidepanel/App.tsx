@@ -556,12 +556,40 @@ export function App() {
   };
 
   // Export handlers
-  const handlePrintPdf = () => {
+  const handlePrintPdf = async () => {
+    if (!notes) return;
+    try {
+      if (typeof chrome !== "undefined" && chrome.storage?.local && chrome.tabs?.create) {
+        await chrome.storage.local.set({ pending_export_notes: notes });
+        const exportUrl = chrome.runtime.getURL(
+          `export.html?videoId=${encodeURIComponent(notes.video.id)}&autoPrint=true`
+        );
+        chrome.tabs.create({ url: exportUrl });
+      } else {
+        localStorage.setItem("notes_gen_pending_export", JSON.stringify(notes));
+        window.open("/export.html?autoPrint=true", "_blank");
+      }
+    } catch (err) {
+      console.error("Print export failed, downloading HTML fallback:", err);
+      handleDownloadHtml();
+    }
+  };
+
+  const handleDownloadHtml = () => {
     if (!notes) return;
     const htmlString = generateHtmlDocument(notes);
-    const blob = new Blob([htmlString], { type: "text/html" });
+    const blob = new Blob([htmlString], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
-    window.open(url, "_blank");
+    const a = document.createElement("a");
+    a.href = url;
+    const title = (notes.guide?.title || notes.video.title || "study-guide")
+      .replace(/[^a-zA-Z0-9_-]/g, "_")
+      .slice(0, 50);
+    a.download = `${title}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setFeedback("HTML study guide downloaded!");
+    setTimeout(() => setFeedback(null), 2500);
   };
 
   const handleCopyMarkdown = () => {
@@ -949,6 +977,13 @@ export function App() {
                   onClick={handleCopyMarkdown}
                 >
                   <Copy size={14} />
+                </button>
+                <button
+                  className="icon-btn-stitch"
+                  title="Download Standalone HTML"
+                  onClick={handleDownloadHtml}
+                >
+                  <Download size={14} />
                 </button>
                 <button
                   className="icon-btn-stitch"
